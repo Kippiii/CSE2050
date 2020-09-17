@@ -1,4 +1,4 @@
-"""Prints UN entry order grouped together by country"""
+"""Prints UN entry order grouped together by country."""
 # Author: Ian Orzel, iorzel2019@my.fit.edu
 # Course: CSE 2050, Fall 2020
 # Project: Tri-Color Sort

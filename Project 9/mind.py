@@ -1,4 +1,4 @@
-"""Calculates the scoring during one round of mastermind"""
+"""Calculates the scoring during one round of mastermind."""
 # Author: Ian Orzel, iorzel2019@my.fit.edu
 # Course: CSE 2050, Fall 2020
 # Project: Master Mind
