@@ -8,11 +8,13 @@ from sys import stdin, stdout
 
 def find_kii(n, k=0, length=3):
     """Use recursion to determine nth letter."""
+    prev_length = (length - k - 3) // 2
     if length < n:
         n = find_kii(n, k + 1, length * 2 + k + 4)
         if n <= 0:  # Returns when correct letter already found
             return -1
-    prev_length = (length - k - 3) // 2
+        if n <= prev_length:
+            return n
     n -= prev_length  # Removes leftmost k-1 sequence from n
 
     if n == 1:  # Leftmost value must be 'k'
