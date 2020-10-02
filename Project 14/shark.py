@@ -16,7 +16,7 @@ for line in stdin:
     # Sorts based on tuple as follows:
     #   1. Whether number is power of two
     #   2. Highest power of two multiple (inverted if number is power of two)
-    #   3. Odd part of number other than multiple of two
+    #   3. Odd part of number other than multiples of two
     nums.sort(key=lambda num: (num == LSB(num),
                                LSB(num) if num != LSB(num) else -LSB(num),
                                num // LSB(num)), reverse=True)
