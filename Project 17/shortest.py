@@ -92,7 +92,7 @@ else:
     # Running dijkstra's
     while q:
         node = heapq.heappop(q)
-        if node[0] < dist[node[1]]:
+        if node[0] > dist[node[1]]:
             continue
         for n in graph[node[1]]:
             new_dist = dist[node[1]] + n[1]
