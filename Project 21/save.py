@@ -36,7 +36,6 @@ for i in range(len(map)):
 
 moves = 0
 hyacinths = 0
-boat_momentum = [[False for _ in range(len(line))] for line in map]
 
 
 def make_move(move):
@@ -51,7 +50,7 @@ def make_move(move):
     new_pos = (manatee_pos[0] + move[0], manatee_pos[1] + move[1])
     if new_pos[0] < 0 or new_pos[0] >= len(map):
         return None
-    if new_pos[1] < 0 or new_pos[1] >= len(map[0]):
+    if new_pos[1] < 0 or new_pos[1] >= len(map[new_pos[0]]):
         return None
 
     entity = map[new_pos[0]][new_pos[1]]
@@ -82,7 +81,8 @@ def make_move(move):
             new_boat_pos = (new_pos[0] + move[0], new_pos[1] + move[1])
             if new_boat_pos[0] < 0 or new_boat_pos[0] >= len(map):
                 return None
-            if new_boat_pos[1] < 0 or new_boat_pos[1] >= len(map[0]):
+            if new_boat_pos[1] < 0 \
+                    or new_boat_pos[1] >= len(map[new_boat_pos[0]]):
                 return None
             if map[new_boat_pos[0]][new_boat_pos[1]] == " ":
                 map[new_boat_pos[0]][new_boat_pos[1]] = "*"
@@ -109,12 +109,6 @@ def move_boats():
                         map[i+2][j] = "W"
                     map[i+1][j] = "*"
                     map[i][j] = " "
-                    boat_momentum[i+1][j] = True
-                elif map[i+1][j] == "M":
-                    if boat_momentum[i][j]:
-                        # Manatee gets hit by moving boat
-                        hit_manatee = True
-                        map[i+1][j] = "W"
                 elif map[i+1][j] == "*":
                     # Boats colliding with each other
                     new_boat_pos = (i, j)
@@ -125,22 +119,21 @@ def move_boats():
                             and map[i+1][j-1] == " ":
                         new_boat_pos = (i+1, j-1)
                     else:
-                        boat_momentum[i][j] = False
                         continue
 
                     # Moves boat down to new position
                     map[i][j] = " "
                     map[new_boat_pos[0]][new_boat_pos[1]] = "*"
-                    boat_momentum[new_boat_pos[0]][new_boat_pos[1]] = True
                     if new_boat_pos[0] + 1 < len(map) and \
                             map[new_boat_pos[0] + 1][new_boat_pos[1]] == "M":
                         hit_manatee = True
                         map[new_boat_pos[0] + 1][new_boat_pos[1]] == "W"
-                else:
-                    # Runs if boat cannot move
-                    boat_momentum[i][j] = False
     return "injured" if hit_manatee else None
 
+
+# Handles case of no hyacinths
+if len(hyacinth_pos) == 0:
+    map[grate_pos[0]][grate_pos[1]] = "O"
 
 # Prints the beginning version of the map
 for line in map:
@@ -150,7 +143,7 @@ stdout.write('\n')
 score = 0
 end_reason = ""
 while True:
-    move_str = stdin.readline().strip()
+    move_str = stdin.read(1)
     if move_str == "L":
         move = (0, -1)
     elif move_str == "R":
@@ -165,6 +158,8 @@ while True:
         score = hyacinths * 50 - moves
         end_reason = "quit"
         break
+    else:
+        continue
 
     # Makes the move and update map
     result = make_move(move)
